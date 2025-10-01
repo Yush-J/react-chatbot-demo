@@ -76,6 +76,10 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [state])
 
   //main logic
+  // After the user sends a message, it will be immediately displayed in the message list
+  // At the same time, place an empty message saying "AI is inputting"
+  // Call the backend API to obtain the complete answer
+    // Simulate word-by-word output using a for loop and dispatch(updateLast)
   const send = async (content: string) => {
     const user: Message = { id: crypto.randomUUID(), role: 'user', content, timestamp: Date.now() }
     //add user message
