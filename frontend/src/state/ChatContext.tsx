@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, useReducer } from
 import type { Message } from '../types'
 import { sendChat } from '../api'
 
+//define state
 type State = {
   messages: Message[]
   isLoading: boolean
@@ -13,6 +14,7 @@ type Action =
   | { type: 'SET_LOADING'; value: boolean }
   | { type: 'RESET' }
 
+//Define a global "chat context"
 const ChatCtx = createContext<{
   state: State
   dispatch: React.Dispatch<Action>
@@ -20,6 +22,8 @@ const ChatCtx = createContext<{
   isLoading: boolean
 } | null>(null)
 
+
+//Define initial state strtucture 
 const initialState: State = {
   messages: [
     {
@@ -33,6 +37,7 @@ const initialState: State = {
   isLoading: false
 }
 
+//State update logic
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'ADD_MESSAGE':
@@ -70,8 +75,10 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     persist('chat-state', state)
   }, [state])
 
+  //main logic
   const send = async (content: string) => {
     const user: Message = { id: crypto.randomUUID(), role: 'user', content, timestamp: Date.now() }
+    //add user message
     dispatch({ type: 'ADD_MESSAGE', message: user })
 
     const placeholder: Message = {
@@ -80,6 +87,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
       content: '…',
       timestamp: Date.now()
     }
+    //add an empty place holder
     dispatch({ type: 'ADD_MESSAGE', message: placeholder })
     dispatch({ type: 'SET_LOADING', value: true })
 
@@ -90,6 +98,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         acc += token
         dispatch({ type: 'UPDATE_MESSAGE', id: placeholder.id, patch: { content: acc } })
       }
+      // call api.sendChat() calling backend api
       const res = await sendChat([...state.messages, user], onToken)
       dispatch({
         type: 'UPDATE_MESSAGE',
