@@ -35,21 +35,7 @@ This project demonstrates a simple end-to-end conversation flow: user input → 
    - Chat state is persisted in `localStorage` for session continuity.  
    - Designed for future features: multiple chats, authentication, true LLM integration.  
 
----
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js >= 18  
-- Python >= 3.9  
-
-### Clone the repo
-```bash
-git clone https://github.com/your-repo/react-chatbot-demo.git
-cd react-chatbot-demo
-```
-
----
 
 ### Backend (FastAPI)
 ```bash
